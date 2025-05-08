@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Three Section Scroll</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis"></script>
+</head>
+<body>
+  <!-- Custom cursor element -->
+  <div class="custom-cursor"></div>
+
+  <!-- Page 1 -->
+  <section class="page page1">
+    <h1>Welcome to Sussex Taps</h1>
+    <p>Scroll down to explore our collections...</p>
+  </section>
+  
+  <!-- Horizontal Scroll Section -->
+  <section class="page services-section" id="services">
+    <div class="horizontal-scroll">
+      <div class="gallery">
+        <div class="item" data-bg="#a6e8dc" data-title="Monsoon">
+          <img src="assets/horses.png" alt="Monsoon">
+          <h1 class="title">Monsoon</h1>
+        </div>
+        <div class="item" data-bg="#f5c2c2" data-title="Aurora">
+          <img src="assets/horses.png" alt="Aurora">
+          <h1 class="title">Aurora</h1>
+        </div>
+        <div class="item" data-bg="#c3baff" data-title="Blush">
+          <img src="assets/horses.png" alt="Blush">
+          <h1 class="title">Blush</h1>
+        </div>
+        <div class="item" data-bg="#fbe29f" data-title="Chrome">
+          <img src="assets/horses.png" alt="Chrome">
+          <h1 class="title">Chrome</h1>
+        </div>
+        <div class="item" data-bg="#ffe8a1" data-title="Clay">
+          <img src="assets/horses.png" alt="Clay">
+          <h1 class="title">Clay</h1>
+        </div>
+        <div class="item" data-bg="#b4e1ff" data-title="Ash">
+          <img src="assets/horses.png" alt="Ash">
+          <h1 class="title">Ash</h1>
+        </div>
+        <div class="item" data-bg="#ffd6d6" data-title="Sand">
+          <img src="assets/horses.png" alt="Sand">
+          <h1 class="title">Sand</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page 2 -->
+  <section class="page page2">
+    <h1>Discover More</h1>
+    <p>Explore our full catalogue and services.</p>
+  </section>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

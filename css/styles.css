@@ -1,0 +1,132 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: none !important;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #a6e8dc;
+  transition: background-color 0.6s ease;
+}
+
+.page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.page2 {
+  background: #f0f0f0;
+}
+
+.page1 {
+  background: #a6e8dc;
+}
+
+.page h1 {
+  font-size: 7rem;
+  margin-bottom: 1rem;
+}
+
+.page1, .page2 {
+  position: relative;
+  z-index: 10;
+  transition: opacity 0.5s ease;
+}
+
+.page p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  text-align: center;
+}
+
+.services-section {
+  position: relative;
+  background-color: inherit;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.horizontal-scroll {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.gallery {
+  display: flex;
+  gap: 80px;
+  padding: 0 40px;
+  will-change: transform;
+  position: relative;
+  width: max-content;
+}
+
+.item {
+  position: relative;
+  flex: 0 0 auto;
+  width: 340px;
+  height: calc(320px * 1.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: white;
+  transition: transform 0.4s ease;
+}
+
+.item img {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+}
+
+.title {
+  position: absolute;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  opacity: 0;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+/* Custom cursor styles */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #888;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, background-color 0.2s, border-color 0.2s;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  opacity: 0;
+}
+
+.custom-cursor.hovered {
+  transform: translate(-50%, -50%) scale(0.7);
+  background-color: #fff;
+}
