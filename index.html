@@ -2,24 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Three Section Scroll</title>
+  <title>Design Studio</title>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/video.css">
   <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis"></script>
+  <script src="https://cdn.jsdelivr.net/npm/scrolly-video@latest/dist/scrolly-video.min.js"></script>
 </head>
 <body>
-  <!-- Custom cursor element -->
-  <div class="custom-cursor"></div>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
 
-  <!-- Page 1 -->
+  <!-- Scrolly Video Section -->
+  <div class="video-section">
+    <div id="scrolly-video"></div>
+    <div class="video-overlay">
+      <h1 class="designer-label">Designer</h1>
+    </div>
+  </div>
+
   <section class="page page1">
     <h1>Welcome to Sussex Taps</h1>
     <p>Scroll down to explore our collections...</p>
   </section>
+
+  <div class="scroll-ui">Scroll to explore</div>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+  <!-- Custom cursor element -->
+  <div class="custom-cursor"></div>
   
   <!-- Horizontal Scroll Section -->
   <section class="page services-section" id="services">
+    <h3>OUR SERVICES</h3>
     <div class="horizontal-scroll">
       <div class="gallery">
         <div class="item" data-bg="#a6e8dc" data-title="Monsoon">
@@ -104,5 +122,6 @@
     </div>
   </div>
   <script src="js/main.js"></script>
+  <script src="js/video.js"></script>
 </body>
 </html>

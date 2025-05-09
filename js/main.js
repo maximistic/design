@@ -1,71 +1,89 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Custom cursor functionality
+document.addEventListener('DOMContentLoaded', function () {
   const cursor = document.querySelector('.custom-cursor');
   let cursorVisible = false;
-  
-  // Show cursor when mouse moves
-  document.addEventListener('mousemove', function(e) {
+
+  document.addEventListener('mousemove', function (e) {
     if (!cursorVisible) {
       cursorVisible = true;
       cursor.style.opacity = 1;
     }
-    
+
     cursor.style.left = e.clientX + 'px';
     cursor.style.top = e.clientY + 'px';
-    
-    // Get element under the cursor
+
     const elementMouseIsOver = document.elementFromPoint(e.clientX, e.clientY);
-    
-    // Check background color to adapt cursor color
     if (elementMouseIsOver) {
       const computedStyle = window.getComputedStyle(elementMouseIsOver);
       const bgColor = computedStyle.backgroundColor;
-      
-      // For non-transparent backgrounds, check brightness
+
       if (bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
         const rgb = bgColor.match(/\d+/g);
         if (rgb && rgb.length >= 3) {
           const brightness = (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000;
-          // mix-blend-mode handles the inversion automatically
         }
       }
     }
   });
-  
-  // Hide cursor when mouse leaves window
-  document.addEventListener('mouseout', function(e) {
+
+  document.addEventListener('mouseout', function (e) {
     if (e.relatedTarget === null) {
       cursorVisible = false;
       cursor.style.opacity = 0;
     }
   });
-  
-  // Add hover effect for interactive elements
+
   const interactiveElements = document.querySelectorAll('a, button, img, h1, h2, h3, p, .item');
   interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', function() {
-      cursor.classList.add('hovered');
-    });
-    
-    el.addEventListener('mouseleave', function() {
-      cursor.classList.remove('hovered');
-    });
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
   });
 
-  // Initialize Lenis for smooth scrolling
-  const lenis = new Lenis({
-    smooth: true,
-    lerp: 0.1,
-  });
-
+  const lenis = new Lenis({ smooth: true, lerp: 0.1 });
   function raf(time) {
     lenis.raf(time);
     requestAnimationFrame(raf);
   }
   requestAnimationFrame(raf);
 
-  // Register GSAP's ScrollTrigger plugin
   gsap.registerPlugin(ScrollTrigger);
+
+  ScrollTrigger.create({
+    trigger: '.video-section',
+    start: 'bottom bottom',
+    end: 'bottom top',
+    onEnter: () => {
+      gsap.to('.progress', { autoAlpha: 0, duration: 0.5 });
+      gsap.to('.scroll-ui', { autoAlpha: 0, duration: 0.5 });
+    },
+    onLeaveBack: () => {
+      gsap.to('.progress', { autoAlpha: 1, duration: 0.5 });
+      gsap.to('.scroll-ui', { autoAlpha: 1, duration: 0.5 });
+    }
+  });
+
+  gsap.from(".page1", {
+    scrollTrigger: {
+      trigger: ".page1",
+      start: "top 80%",
+      toggleActions: "play none none none"
+    },
+    opacity: 0,
+    y: 100,
+    duration: 1,
+    ease: "power2.out"
+  });
+
+  ScrollTrigger.create({
+    trigger: '.page1',
+    start: 'top bottom',
+    end: 'top top',
+    onEnter: () => {
+      gsap.to('.designer-label, .designer-subtext', { autoAlpha: 0, duration: 0.5 });
+    },
+    onLeaveBack: () => {
+      gsap.to('.designer-label, .designer-subtext', { autoAlpha: 1, duration: 0.5 });
+    }
+  });
 
   window.addEventListener('load', () => {
     const gallery = document.querySelector('.gallery');
@@ -77,10 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollDistance = (cardWidth + gap) * (totalCards - 1);
     const initialOffset = (window.innerWidth - cardWidth) / 2;
 
-    // 1) Position gallery off-screen to the right
     gsap.set(gallery, { x: initialOffset });
 
-    // 2) PINNED HORIZONTAL SCROLL: Once fully in view
     gsap.to(gallery, {
       x: () => -scrollDistance,
       ease: 'none',
@@ -94,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
       },
     });
 
-    // 3) HIGHLIGHT CENTER CARD + BODY BG + TITLE FADE-IN
     ScrollTrigger.create({
       trigger: '.services-section',
       start: 'top top',
@@ -104,13 +119,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const centerX = window.innerWidth / 2;
         let closest, minDist = Infinity;
 
-        items.forEach((item, index) => {
+        items.forEach((item) => {
           const rect = item.getBoundingClientRect();
           const itemCenter = rect.left + rect.width / 2;
           const dist = Math.abs(centerX - itemCenter);
           const title = item.querySelector('.title');
 
-          // Reset all titles
           title.style.opacity = 0;
           title.style.transform = 'translate(-50%, -50%) scale(0.9)';
 
@@ -121,11 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (closest) {
-          // Change background color
           const bgColor = closest.dataset.bg;
           document.body.style.backgroundColor = bgColor;
 
-          // Highlight title
           const t = closest.querySelector('.title');
           t.style.opacity = 1;
           t.style.transform = 'translate(-50%, -50%) scale(1)';
