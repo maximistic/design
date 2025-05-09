@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Testimonials Slider</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+.slider {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  height: 100%;
+  transition: transform 0.7s ease;
+}
+
+.slide {
+  min-width: 100%;
+  height: 100%;
+  background: #222 no-repeat center center/cover;
+  position: relative;
+  color: #fff;
+}
+
+
+.content {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  max-width: 700px;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+blockquote p {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+footer {
+  font-style: italic;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 2rem;
+  color: #fff;
+  transition: background 0.3s;
+}
+
+.nav:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.prev {
+  left: 1rem;
+}
+
+.next {
+  right: 1rem;
+}
+
+.dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.6rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #eee;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.dot.active {
+  background: #00cc99;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<div class="slider">
+  <div class="slides">
+    <div class="slide" style="background-image: url('assets/test1.jpg')">
+      <div class="content">
+        <blockquote>
+          <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris."</p>
+          <footer>— Nirav Shah</footer>
+        </blockquote>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/test2.jpg')">
+      <div class="content">
+        <blockquote>
+          <p>"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip."</p>
+          <footer>— Jane Doe</footer>
+        </blockquote>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/test3.jpg')">
+      <div class="content">
+        <blockquote>
+          <p>"Great service and amazing support. Highly recommend to anyone!"</p>
+          <footer>— John Smith</footer>
+        </blockquote>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/test4.jpg')">
+      <div class="content">
+        <blockquote>
+          <p>"Clean, modern, and super easy to use. Exactly what we needed!"</p>
+          <footer>— Emma Brown</footer>
+        </blockquote>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('assets/test5.jpg')">
+      <div class="content">
+        <blockquote>
+          <p>"A seamless experience from start to finish. Truly impressed."</p>
+          <footer>— Liam Green</footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <button class="nav prev">&#10094;</button>
+  <button class="nav next">&#10095;</button>
+
+  <div class="dots">
+    <span class="dot" data-index="0"></span>
+    <span class="dot" data-index="1"></span>
+    <span class="dot" data-index="2"></span>
+    <span class="dot" data-index="3"></span>
+    <span class="dot" data-index="4"></span>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelector('.slides');
+const dots = document.querySelectorAll('.dot');
+const prevBtn = document.querySelector('.prev');
+const nextBtn = document.querySelector('.next');
+
+let currentIndex = 0;
+
+function updateSlider(index) {
+  slides.style.transform = `translateX(-${index * 100}%)`;
+  dots.forEach(dot => dot.classList.remove('active'));
+  dots[index].classList.add('active');
+}
+
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % dots.length;
+  updateSlider(currentIndex);
+}
+
+function prevSlide() {
+  currentIndex = (currentIndex - 1 + dots.length) % dots.length;
+  updateSlider(currentIndex);
+}
+
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    currentIndex = parseInt(dot.dataset.index);
+    updateSlider(currentIndex);
+  });
+});
+
+nextBtn.addEventListener('click', nextSlide);
+prevBtn.addEventListener('click', prevSlide);
+
+updateSlider(currentIndex); // Initialize
+
+</script>
+</body>
+</html>

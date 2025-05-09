@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalCards = items.length;
     const scrollDistance = (cardWidth + gap) * (totalCards - 1);
     const initialOffset = (window.innerWidth - cardWidth) / 2;
-    const scrollExtra = 400;
+    const scrollExtra = 2000;
   
     gsap.set(gallery, { x: initialOffset });
   
