@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
     opacity: 1,
     duration: 1,
     ease: "power2.out"
-  }, "-=0.5");
+  }, "-=0.6");
   
   // Parallax effect on scroll
   gsap.to(".hero-content", {
@@ -121,72 +121,78 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Setup horizontal scrolling gallery
   window.addEventListener('load', () => {
     const gallery = document.querySelector('.gallery');
     const items = gsap.utils.toArray('.item');
-
-    // Calculate dimensions
+  
     const cardWidth = items[0].offsetWidth;
-    const gap = 80; // Match the CSS gap value
+    const gap = 80;
     const totalCards = items.length;
     const scrollDistance = (cardWidth + gap) * (totalCards - 1);
     const initialOffset = (window.innerWidth - cardWidth) / 2;
-
-    // Set initial position
+    const scrollExtra = 400;
+  
     gsap.set(gallery, { x: initialOffset });
-
-    // Create the horizontal scroll animation
+  
     gsap.to(gallery, {
       x: () => -scrollDistance + initialOffset,
-      ease: 'none',
+      ease: 'power1.inOut',
       scrollTrigger: {
         trigger: '.services-section',
         start: 'top top',
-        end: () => `+=${scrollDistance + 200}`, // Add some extra scroll distance
+        end: () => `+=${scrollDistance + scrollExtra}`,
         pin: true,
         scrub: true,
         anticipatePin: 1,
       },
     });
-
-    // Update title visibility and background color based on card position
+  
+    // Track currently active item
+    let currentClosest = null;
+  
     ScrollTrigger.create({
       trigger: '.services-section',
       start: 'top top',
-      end: () => `+=${scrollDistance + 200}`,
+      end: () => `+=${scrollDistance + scrollExtra}`,
       scrub: true,
-      onUpdate: (self) => {
+      onUpdate: () => {
         const centerX = window.innerWidth / 2;
-        let closest, minDist = Infinity;
-
-        // Find the closest card to center
+        let closestItem = null;
+        let closestDist = Infinity;
+  
         items.forEach((item) => {
           const rect = item.getBoundingClientRect();
           const itemCenter = rect.left + rect.width / 2;
           const dist = Math.abs(centerX - itemCenter);
-          const title = item.querySelector('.title');
-
-          // Reset all titles
-          title.style.opacity = 0;
-          title.style.transform = 'translate(-50%, -50%) scale(0.9)';
-
-          if (dist < minDist) {
-            minDist = dist;
-            closest = item;
+  
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestItem = item;
           }
         });
-
-        // Highlight the closest card
-        if (closest) {
-          const bgColor = closest.dataset.bg;
+  
+        // Only update if the closest item actually changed
+        if (closestItem !== currentClosest) {
+          currentClosest = closestItem;
+          const bgColor = closestItem.dataset.bg;
+  
           document.body.style.backgroundColor = bgColor;
-
-          const title = closest.querySelector('.title');
-          title.style.opacity = 1;
-          title.style.transform = 'translate(-50%, -50%) scale(1)';
+  
+          items.forEach((item) => {
+            const title = item.querySelector('.title');
+            if (item === closestItem) {
+              // Show instantly
+              title.style.opacity = '1';
+              title.style.transform = 'translate(-50%, -50%) scale(1)';
+            } else {
+              // Hide instantly
+              title.style.opacity = '0';
+              title.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            }
+          });
         }
       },
     });
   });
+  
 });

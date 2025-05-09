@@ -71,7 +71,7 @@ h1, h2, h3, h4, .title, .footer-title, .nav-heading {
   font-size: 6rem;
   font-weight: 500;
   margin-bottom: 1rem;
-  opacity: 0; /* Start hidden for animation */
+  opacity: 0;
 }
 
 .tagline {
@@ -89,7 +89,7 @@ h1, h2, h3, h4, .title, .footer-title, .nav-heading {
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
-  transition: opacity 0.5s ease;
+  transition: opacity 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
