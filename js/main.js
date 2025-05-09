@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const cursor = document.querySelector('.custom-cursor');
   let cursorVisible = false;
 
+  // Custom cursor behavior
   document.addEventListener('mousemove', function (e) {
     if (!cursorVisible) {
       cursorVisible = true;
@@ -10,19 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     cursor.style.left = e.clientX + 'px';
     cursor.style.top = e.clientY + 'px';
-
-    const elementMouseIsOver = document.elementFromPoint(e.clientX, e.clientY);
-    if (elementMouseIsOver) {
-      const computedStyle = window.getComputedStyle(elementMouseIsOver);
-      const bgColor = computedStyle.backgroundColor;
-
-      if (bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
-        const rgb = bgColor.match(/\d+/g);
-        if (rgb && rgb.length >= 3) {
-          const brightness = (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000;
-        }
-      }
-    }
   });
 
   document.addEventListener('mouseout', function (e) {
@@ -38,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
   });
 
+  // Smooth scrolling setup
   const lenis = new Lenis({ smooth: true, lerp: 0.1 });
   function raf(time) {
     lenis.raf(time);
@@ -45,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   requestAnimationFrame(raf);
 
+  // GSAP animations
   gsap.registerPlugin(ScrollTrigger);
 
   ScrollTrigger.create({
@@ -61,18 +51,64 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  gsap.from(".page1", {
+  gsap.timeline({
     scrollTrigger: {
       trigger: ".page1",
-      start: "top 80%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 100,
+      start: "top 70%",
+      end: "top top",
+      toggleActions: "play none none reverse"
+    }
+  })
+  .to(".studio-name", {
+    opacity: 1,
+    y: 0,
     duration: 1,
     ease: "power2.out"
+  })
+  .to(".tagline", {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    ease: "power2.out"
+  }, "-=0.6")
+  .to(".tagline-2", {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    ease: "power2.out"
+  }, "-=0.6")
+  .to(".scroll-prompt", {
+    opacity: 1,
+    duration: 1,
+    ease: "power2.out"
+  }, "-=0.5");
+  
+  // Parallax effect on scroll
+  gsap.to(".hero-content", {
+    yPercent: -10,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".page1",
+      start: "top top",
+      end: "bottom top",
+      scrub: true
+    }
   });
-
+  
+  // Fade out hero section on scroll exit
+  ScrollTrigger.create({
+    trigger: ".page1",
+    start: "top top",
+    end: "bottom top",
+    scrub: true,
+    onUpdate: (self) => {
+      const opacity = 1 - self.progress;
+      gsap.set(".hero-content", { opacity });
+      gsap.set(".scroll-prompt", { opacity });
+    }
+  });
+  
+  // Hide .designer-label on scroll
   ScrollTrigger.create({
     trigger: '.page1',
     start: 'top bottom',
@@ -85,46 +121,53 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Setup horizontal scrolling gallery
   window.addEventListener('load', () => {
     const gallery = document.querySelector('.gallery');
     const items = gsap.utils.toArray('.item');
 
+    // Calculate dimensions
     const cardWidth = items[0].offsetWidth;
-    const gap = 80;
+    const gap = 80; // Match the CSS gap value
     const totalCards = items.length;
     const scrollDistance = (cardWidth + gap) * (totalCards - 1);
     const initialOffset = (window.innerWidth - cardWidth) / 2;
 
+    // Set initial position
     gsap.set(gallery, { x: initialOffset });
 
+    // Create the horizontal scroll animation
     gsap.to(gallery, {
-      x: () => -scrollDistance,
+      x: () => -scrollDistance + initialOffset,
       ease: 'none',
       scrollTrigger: {
         trigger: '.services-section',
         start: 'top top',
-        end: () => `+=${scrollDistance}`,
+        end: () => `+=${scrollDistance + 200}`, // Add some extra scroll distance
         pin: true,
         scrub: true,
         anticipatePin: 1,
       },
     });
 
+    // Update title visibility and background color based on card position
     ScrollTrigger.create({
       trigger: '.services-section',
       start: 'top top',
-      end: () => `+=${scrollDistance}`,
+      end: () => `+=${scrollDistance + 200}`,
       scrub: true,
       onUpdate: (self) => {
         const centerX = window.innerWidth / 2;
         let closest, minDist = Infinity;
 
+        // Find the closest card to center
         items.forEach((item) => {
           const rect = item.getBoundingClientRect();
           const itemCenter = rect.left + rect.width / 2;
           const dist = Math.abs(centerX - itemCenter);
           const title = item.querySelector('.title');
 
+          // Reset all titles
           title.style.opacity = 0;
           title.style.transform = 'translate(-50%, -50%) scale(0.9)';
 
@@ -134,13 +177,14 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         });
 
+        // Highlight the closest card
         if (closest) {
           const bgColor = closest.dataset.bg;
           document.body.style.backgroundColor = bgColor;
 
-          const t = closest.querySelector('.title');
-          t.style.opacity = 1;
-          t.style.transform = 'translate(-50%, -50%) scale(1)';
+          const title = closest.querySelector('.title');
+          title.style.opacity = 1;
+          title.style.transform = 'translate(-50%, -50%) scale(1)';
         }
       },
     });
