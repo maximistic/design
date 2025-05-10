@@ -1,0 +1,83 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  height: calc(100% - 120px);
+  margin: 2% 3%;
+  overflow:visible;
+  margin-top: 10%;
+}
+
+.poster-card {
+  width: 100%;
+  height: 350px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  perspective: 2500px;
+}
+
+.wrapper {
+  transition: all 0.5s;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.poster-card:hover .wrapper {
+  transform: perspective(900px) translateY(-5%) rotateX(25deg);
+  box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+}
+
+.wrapper::before,
+.wrapper::after {
+  content: "";
+  opacity: 0;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  transition: all 0.5s;
+}
+
+.wrapper::before {
+  top: 0;
+  height: 100%;
+  background: linear-gradient(to top, transparent 46%, rgba(0, 0, 0, 0.5) 68%, rgba(0, 0, 0) 97%);
+}
+
+.wrapper::after {
+  bottom: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent 46%, rgba(0, 0, 0, 0.5) 68%, rgba(0, 0, 0) 97%);
+}
+
+.poster-card:hover .wrapper::before,
+.poster-card:hover .wrapper::after {
+  opacity: 1;
+}
+
+.poster-card:hover .wrapper::after {
+  height: 120px;
+}
+
+.poster-character {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.5s;
+  position: absolute;
+  z-index: 1;
+}
+
+.poster-card:hover .poster-character {
+  opacity: 1;
+  transform: translate3d(0%, -30%, 100px);
+}

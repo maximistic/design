@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Design Studio</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Montage Studio</title>
+  <link rel="stylesheet" href="css/Cursor.css">
+  <link rel="stylesheet" href="css/Footer.css">
+  <link rel="stylesheet" href="css/Hero.css">
+  <link rel="stylesheet" href="css/HorizontalScrollGallery.css">
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/video.css">
+  <link rel="stylesheet" href="css/ScrollPrompt.css">
   <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis"></script>
@@ -18,13 +23,17 @@
 
   <!-- Scrolly Video Section -->
   <div class="video-section">
-    <div id="scrolly-video"></div>
+    <div id="scrolly-video">
+      <video data-scrolly-video autoplay muted playsinline>
+        <source src="assets/lens.mp4" type="video/mp4">
+      </video>
+    </div>
     <div class="video-overlay">
       <h1 class="designer-label">Montage</h1>
     </div>
   </div>
 
-  <section class="page page1">
+  <section class="page page1 reveal-trigger">
     <div class="hero-content">
       <h1 class="studio-name">Montage Studio</h1>
       <p class="tagline">Where Vision Meets Pixel Perfection</p>
@@ -49,43 +58,45 @@
 
   <div class="custom-cursor"></div>
   
-<section class="page services-section" id="services">
-  <h3>OUR SERVICES</h3>
-  <div class="horizontal-scroll">
-    <div class="gallery">
-      <a href="redirect.html" class="item" data-bg="#92dfcf" data-title="Branding">
-        <img src="assets/branding.jpg" alt="Branding">
-        <h1 class="title">Branding</h1>
-      </a>
-      <div class="item" data-bg="#f8dd9f" data-title="Advertising">
-        <img src="assets/advertising.jpg" alt="Advertising">
-        <h1 class="title">Advertising</h1>
-      </div>
-      <div class="item" data-bg="#f2b590" data-title="Designing">
-        <img src="assets/designing.jpg" alt="Designing">
-        <h1 class="title">Designing</h1>
-      </div>
-      <div class="item" data-bg="#ead5d3" data-title="UI/UX">
-        <img src="assets/UIUX.jpg" alt="UI/UX">
-        <h1 class="title">UI/UX</h1>
-      </div>
-      <div class="item" data-bg="#c6e9ff" data-title="Marketing">
-        <img src="assets/marketing.jpg" alt="Marketing">
-        <h1 class="title">Marketing</h1>
-      </div>
-      <div class="item" data-bg="#48467d" data-title="Production">
-        <img src="assets/production.jpg" alt="Production">
-        <h1 class="title">Production</h1>
+  <section class="page services-section" id="services">
+    <h3>OUR SERVICES</h3>
+    <div class="horizontal-scroll">
+      <div class="gallery">
+        <a href="redirect.html" class="item" data-bg="#92dfcf" data-title="Branding">
+          <img src="assets/branding.jpg" alt="Branding">
+          <h1 class="title">Branding</h1>
+        </a>
+        <a href="redirect.html" class="item" data-bg="#f8dd9f" data-title="Advertising">
+          <img src="assets/advertising.jpg" alt="Advertising">
+          <h1 class="title">Advertising</h1>
+        </a>
+        <a href="redirect.html" class="item" data-bg="#f2b590" data-title="Designing">
+          <img src="assets/designing.jpg" alt="Designing">
+          <h1 class="title">Designing</h1>
+        </a>
+        <a href="redirect.html"class="item" data-bg="#ead5d3" data-title="UI/UX">
+          <img src="assets/UIUX.jpg" alt="UI/UX">
+          <h1 class="title">UI/UX</h1>
+        </a>
+        <a href="redirect.html"class="item" data-bg="#c6e9ff" data-title="Marketing">
+          <img src="assets/marketing.jpg" alt="Marketing">
+          <h1 class="title">Marketing</h1>
+        </a>
+        <a href="redirect.html"class="item" data-bg="#48467d" data-title="Production">
+          <img src="assets/production.jpg" alt="Production">
+          <h1 class="title">Production</h1>
+        </a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- Page 2 -->
   <section class="page page2">
     <h1>Discover More</h1>
     <p>Explore our full catalogue and services.</p>
-  </section>  
+    <a href="redirect.html" class="explore-button">Explore →</a>
+  </section>
+
 
   <div class="footer-container">
     <!-- Fixed footer that will appear when scrolled to -->
@@ -127,9 +138,9 @@
           <p class="copyright">© 2023 Montage Studio. All rights reserved.</p>
         </div>
       </div>
-      
     </div>
   </div>
+  
   <script src="js/main.js"></script>
   <script src="js/video.js"></script>
 </body>

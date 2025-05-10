@@ -84,16 +84,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }, "-=0.6");
   
   // Parallax effect on scroll
-  gsap.to(".hero-content", {
-    yPercent: -10,
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".page1",
-      start: "top top",
-      end: "bottom top",
-      scrub: true
-    }
-  });
+gsap.to(".hero-content", {
+  yPercent: -10,
+  opacity: 0,
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".page1",
+    start: "top top",
+    end: "bottom top",
+    scrub: true
+  }
+});
   
   // Fade out hero section on scroll exit
   ScrollTrigger.create({
@@ -108,18 +109,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
   
-  // Hide .designer-label on scroll
-  ScrollTrigger.create({
-    trigger: '.page1',
-    start: 'top bottom',
-    end: 'top top',
-    onEnter: () => {
-      gsap.to('.designer-label, .designer-subtext', { autoAlpha: 0, duration: 0.5 });
-    },
-    onLeaveBack: () => {
-      gsap.to('.designer-label, .designer-subtext', { autoAlpha: 1, duration: 0.5 });
-    }
+  gsap.utils.toArray('.reveal-trigger').forEach(triggerEl => {
+    ScrollTrigger.create({
+      trigger: triggerEl,
+      start: 'top bottom',
+      end: 'top top',
+      onEnter: () => {
+        gsap.to('.designer-label, .designer-subtext', { autoAlpha: 0, duration: 0.5 });
+      },
+      onLeaveBack: () => {
+        gsap.to('.designer-label, .designer-subtext', { autoAlpha: 1, duration: 0.5 });
+      }
+    });
   });
+
 
   window.addEventListener('load', () => {
     const gallery = document.querySelector('.gallery');

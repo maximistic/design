@@ -1,0 +1,70 @@
+.services-section {
+  position: relative;
+  background-color: inherit;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.services-section h3 {
+  text-align: center;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.horizontal-scroll {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.gallery {
+  display: flex;
+  gap: 80px;
+  padding: 0 40px;
+  will-change: transform;
+  position: relative;
+  width: max-content; /* Ensures the gallery takes as much width as needed */
+}
+
+/* Item styling with fixed position for cards */
+.item {
+  position: relative;
+  flex: 0 0 auto; /* Don't grow or shrink, remain fixed width */
+  width: 340px;
+  height: calc(320px * 1.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: white;
+  transition: transform 0.4s ease;
+  overflow: visible; /* Allow content to flow outside */
+  cursor: pointer;
+}
+
+.item img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Large title style that overlays */
+.title {
+  position: absolute;
+  font-size: 5rem;
+  font-weight: bold;
+  color: white;
+  opacity: 0;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  transition: opacity var(--transition-medium), transform var(--transition-medium);
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  white-space: nowrap; /* Prevent text from wrapping */
+  z-index: 10; /* Ensure title appears above the card */
+  width: auto; /* Allow text to expand beyond container */
+}
