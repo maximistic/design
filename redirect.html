@@ -9,193 +9,202 @@
   <link rel="stylesheet" href="css/Team.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/redirect.css">
-  <link rel="stylesheet" href="css/video.css">
   <link rel="stylesheet" href="css/Footer.css">
   <link rel="stylesheet" href="css/ScrollPrompt.css">
-  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis"></script>
-  <script src="https://cdn.jsdelivr.net/npm/scrolly-video@latest/dist/scrolly-video.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <title>Montage Studio</title>
   <style>
 
   </style>
 </head>
 <body>
-  <!-- Scrolly Video Section -->
-  <div class="video-section">
-    <div id="scrolly-video">
-      <video data-scrolly-video autoplay muted playsinline>
-        <source src="assets/car.mp4" type="video/mp4">
-      </video>
+  <div class="hero-section">
+    <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="assets/car-poster.jpg">
+      <source src="assets/car.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Dark overlay mask -->
+    <div class="video-mask"></div>
+
+    <div class="overlay-content">
+      <h1 class="designer-label">MONTAGE</h1>
     </div>
-    <div class="video-overlay">
-      <h1 class="designer-label">Montage</h1>
+
+    <div class="scroll-prompt" style="color: #fff;">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <p class="scroll-text">Scroll to explore</p>
+    </div>
+
+    <div class="bottom-left-tagline">
+      <p>Crafting Cinematic Brilliance.</p>
+      <p>Where stories meet soul.</p>
     </div>
   </div>
-  <div class="scroll-ui">Scroll to explore</div>
-  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+
   <!-- Custom cursor -->
   <div class="custom-cursor"></div>
 
-  <div class="scroll-snap-container">
-    <!-- Section 1: Our Works -->
-    <section class="section works reveal-trigger" id="works">
-      <div class="clip-container works-container">
-        <div class="section-content">
-          <h1 class="section-title">Our Works</h1>
-          <div class="gallery">
-            <div class="poster-card">
-              <div class="wrapper">
-                <img src="assets/vikram.jpeg" class="cover-image" />
-              </div>
-              <img src="assets/vikrambg.png" class="poster-character" />
+  <!-- Section 1: Our Works -->
+  <section class="section works reveal-trigger" id="works">
+    <div class="clip-container works-container">
+      <div class="section-content">
+        <h1 class="section-title">Our Works</h1>
+        <div class="gallery">
+          <div class="poster-card">
+            <div class="wrapper">
+              <img src="assets/vikram.jpeg" class="cover-image" loading="lazy"/>
             </div>
+            <img src="assets/vikrambg.png" class="poster-character" loading="lazy"/>
+          </div>
 
-            <div class="poster-card">
-              <div class="wrapper">
-                <img src="assets/beast.jpg" class="cover-image" />
-              </div>
-              <img src="assets/beastbg.jpg" class="poster-character" />
+          <div class="poster-card">
+            <div class="wrapper">
+              <img src="assets/beast.jpg" class="cover-image" loading="lazy"/>
             </div>
+            <img src="assets/beastbg.jpg" class="poster-character" loading="lazy"/>
+          </div>
 
-            <div class="poster-card">
-              <div class="wrapper">
-                <img src="assets/varisu.jpg" class="cover-image" />
-              </div>
-              <img src="assets/varisubg.jpg" class="poster-character" />
+          <div class="poster-card">
+            <div class="wrapper">
+              <img src="assets/varisu.jpg" class="cover-image" loading="lazy"/>
             </div>
+            <img src="assets/varisubg.jpg" class="poster-character" loading="lazy"/>
+          </div>
 
-            <div class="poster-card">
-              <div class="wrapper">
-                <img src="assets/thunivu.jpg" class="cover-image" />
-              </div>
-              <img src="assets/thunivubg.jpg" class="poster-character" />
+          <div class="poster-card">
+            <div class="wrapper">
+              <img src="assets/thunivu.jpg" class="cover-image" loading="lazy"/>
             </div>
+            <img src="assets/thunivubg.jpg" class="poster-character" loading="lazy"/>
+          </div>
 
-            <div class="poster-card">
-              <div class="wrapper">
-                <img src="assets/96.jpg" class="cover-image" />
-              </div>
-              <img src="assets/96bg.png" class="poster-character" />
+          <div class="poster-card">
+            <div class="wrapper">
+              <img src="assets/96.jpg" class="cover-image" loading="lazy"/>
             </div>
+            <img src="assets/96bg.png" class="poster-character" loading="lazy"/>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
     <!-- Section 2: Testimonials -->
-    <section class="section testimonials" id="testimonials">
-      <div class="clip-container testimonials-container">
-        <div class="section-content">
-          <h2 class="section-title">Testimonials</h2>
-          <div class="slider">
-            <div class="slides">
-              <div class="slide" style="background-image: url('assets/test2.jpg')">
-                <div class="content">
-                  <blockquote>
-                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris."</p>
-                    <footer>— Nirav Shah</footer>
-                  </blockquote>
-                </div>
-              </div>
-              <div class="slide" style="background-image: url('assets/test5.jpg')">
-                <div class="content">
-                  <blockquote>
-                    <p>"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip."</p>
-                    <footer>— Jane Doe</footer>
-                  </blockquote>
-                </div>
-              </div>
-              <div class="slide" style="background-image: url('assets/test3.jpg')">
-                <div class="content">
-                  <blockquote>
-                    <p>"Great service and amazing support. Highly recommend to anyone!"</p>
-                    <footer>— John Smith</footer>
-                  </blockquote>
-                </div>
-              </div>
-              <div class="slide" style="background-image: url('assets/test4.jpg')">
-                <div class="content">
-                  <blockquote>
-                    <p>"Clean, modern, and super easy to use. Exactly what we needed!"</p>
-                    <footer>— Emma Brown</footer>
-                  </blockquote>
-                </div>
-              </div>
-              <div class="slide" style="background-image: url('assets/test1.jpg')">
-                <div class="content">
-                  <blockquote>
-                    <p>"A seamless experience from start to finish. Truly impressed."</p>
-                    <footer>— Liam Green</footer>
-                  </blockquote>
-                </div>
+  <section class="section testimonials" id="testimonials">
+    <div class="clip-container testimonials-container">
+      <div class="section-content">
+        <h2 class="section-title">Testimonials</h2>
+        <div class="slider">
+          <div class="slides">
+            <div class="slide" style="background-image: url('assets/test2.jpg')">
+              <div class="content">
+                <blockquote>
+                  <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris."</p>
+                  <footer>— Nirav Shah</footer>
+                </blockquote>
               </div>
             </div>
-
-            <button class="nav prev">&#10094;</button>
-            <button class="nav next">&#10095;</button>
-
-            <div class="dots">
-              <span class="dot active" data-index="0"></span>
-              <span class="dot" data-index="1"></span>
-              <span class="dot" data-index="2"></span>
-              <span class="dot" data-index="3"></span>
-              <span class="dot" data-index="4"></span>
+            <div class="slide" style="background-image: url('assets/test5.jpg')">
+              <div class="content">
+                <blockquote>
+                  <p>"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip."</p>
+                  <footer>— Jane Doe</footer>
+                </blockquote>
+              </div>
             </div>
+            <div class="slide" style="background-image: url('assets/test3.jpg')">
+              <div class="content">
+                <blockquote>
+                  <p>"Great service and amazing support. Highly recommend to anyone!"</p>
+                  <footer>— John Smith</footer>
+                </blockquote>
+              </div>
+            </div>
+            <div class="slide" style="background-image: url('assets/test4.jpg')">
+              <div class="content">
+                <blockquote>
+                  <p>"Clean, modern, and super easy to use. Exactly what we needed!"</p>
+                  <footer>— Emma Brown</footer>
+                </blockquote>
+              </div>
+            </div>
+            <div class="slide" style="background-image: url('assets/test1.jpg')">
+              <div class="content">
+                <blockquote>
+                  <p>"A seamless experience from start to finish. Truly impressed."</p>
+                  <footer>— Liam Green</footer>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+
+          <button class="nav prev">&#10094;</button>
+          <button class="nav next">&#10095;</button>
+
+          <div class="dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+            <span class="dot" data-index="4"></span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
     <!-- Section 3: Team -->
-    <section class="section team" id="team">
-      <div class="clip-container team-container">
-        <div class="section-content">
-          <h2 class="section-title">Our Team</h2>
-          <div class="team-container">
-            <div class="team-card">
-              <img src="assets/test4.jpg" alt="Alice Kim">
-              <div class="info">
-                <h3>Alice Kim</h3>
-                <p>Product Manager</p>
-              </div>
+  <section class="section team" id="team">
+    <div class="clip-container team-container">
+      <div class="section-content">
+        <h2 class="section-title">Our Team</h2>
+        <div class="team-container">
+          <div class="team-card">
+            <img src="assets/test4.jpg" alt="Alice Kim" loading="lazy">
+            <div class="info">
+              <h3>Alice Kim</h3>
+              <p>Product Manager</p>
             </div>
-            <div class="team-card">
-              <img src="assets/test3.jpg" alt="Daniel Ross">
-              <div class="info">
-                <h3>Daniel Ross</h3>
-                <p>Lead Developer</p>
-              </div>
+          </div>
+          <div class="team-card">
+            <img src="assets/test3.jpg" alt="Daniel Ross" loading="lazy">
+            <div class="info">
+              <h3>Daniel Ross</h3>
+              <p>Lead Developer</p>
             </div>
-            <div class="team-card">
-              <img src="assets/test2.jpg" alt="Sophia Lin">
-              <div class="info">
-                <h3>Sophia Lin</h3>
-                <p>UX Designer</p>
-              </div>
+          </div>
+          <div class="team-card">
+            <img src="assets/test2.jpg" alt="Sophia Lin" loading="lazy">
+            <div class="info">
+              <h3>Sophia Lin</h3>
+              <p>UX Designer</p>
             </div>
-            <div class="team-card">
-              <img src="assets/test1.jpg" alt="Mark Patel">
-              <div class="info">
-                <h3>Mark Patel</h3>
-                <p>Marketing Head</p>
-              </div>
+          </div>
+          <div class="team-card">
+            <img src="assets/test1.jpg" alt="Mark Patel" loading="lazy">
+            <div class="info">
+              <h3>Mark Patel</h3>
+              <p>Marketing Head</p>
             </div>
-            <div class="team-card">
-              <img src="assets/test5.jpg" alt="Luna Rivera">
-              <div class="info">
-                <h3>Luna Rivera</h3>
-                <p>Customer Success</p>
-              </div>
+          </div>
+          <div class="team-card">
+            <img src="assets/test5.jpg" alt="Luna Rivera" loading="lazy">
+            <div class="info">
+              <h3>Luna Rivera</h3>
+              <p>Customer Success</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
     <div class="footer-container">
     <!-- Fixed footer that will appear when scrolled to -->
