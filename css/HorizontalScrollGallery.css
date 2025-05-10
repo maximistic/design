@@ -25,13 +25,12 @@
   padding: 0 40px;
   will-change: transform;
   position: relative;
-  width: max-content; /* Ensures the gallery takes as much width as needed */
+  width: max-content; 
 }
 
-/* Item styling with fixed position for cards */
 .item {
   position: relative;
-  flex: 0 0 auto; /* Don't grow or shrink, remain fixed width */
+  flex: 0 0 auto;
   width: 340px;
   height: calc(320px * 1.5);
   display: flex;
@@ -41,7 +40,7 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   background: white;
   transition: transform 0.4s ease;
-  overflow: visible; /* Allow content to flow outside */
+  overflow: visible; 
   cursor: pointer;
 }
 
@@ -51,7 +50,6 @@
   object-fit: cover;
 }
 
-/* Large title style that overlays */
 .title {
   position: absolute;
   font-size: 5rem;
@@ -64,7 +62,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
-  white-space: nowrap; /* Prevent text from wrapping */
-  z-index: 10; /* Ensure title appears above the card */
-  width: auto; /* Allow text to expand beyond container */
+  white-space: nowrap;
+  z-index: 10; 
+  width: auto; 
 }
