@@ -1,36 +1,53 @@
-.slider {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 120px);
-  overflow: hidden;
+.carousel {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
-
-.slides {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  transition: transform 0.7s ease;
+.carousel .list {
+    position: absolute;
+    inset: 0 0 0 0;
 }
-
-.slide {
-  min-width: 100%;
-  height: 100%;
-  background: #222 no-repeat center center/cover;
-  position: relative;
-  color: #fff;
+.carousel .list .item {
+    position: absolute;
+    inset: 0 0 0 0;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out, z-index 0s 0.6s;
+    z-index: 0;
 }
-
-.content {
+.carousel .list .item.active {
+    opacity: 1;
+    z-index: 1;
+    transition: opacity 0.6s ease-in-out, z-index 0s 0s;
+}
+.carousel .list .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.carousel .content {
   position: absolute;
-  bottom: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 2rem 3rem;
+  top: 50px;
+  left: 50px;
+  max-width: 500px;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  max-width: 700px;
-  text-align: center;
-  animation: fadeIn 1s ease-in-out;
+  color: #fff;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.carousel .item.active .content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+blockquote {
+  border-left: 4px solid #f1683a;
+  padding-left: 20px;
 }
 
 blockquote p {
@@ -39,67 +56,87 @@ blockquote p {
   margin-bottom: 1rem;
 }
 
-footer {
+blockquote footer {
   font-style: italic;
-  font-size: 1.5rem;
-  opacity: 0.7;
+  font-size: 1.2rem;
+  opacity: 0.8;
 }
-
-.nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.3);
-  border: none;
-  padding: 1rem;
-  cursor: pointer;
-  z-index: 10;
-  font-size: 2rem;
-  color: #fff;
-  transition: background 0.3s;
+.thumbnail {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    width: max-content;
+    z-index: 100;
+    display: flex;
+    gap: 20px;
+    transform: translateX(-50%);
 }
-
-.nav:hover {
-  background: rgba(255, 255, 255, 0.6);
+.thumbnail .item {
+    width: 100px;
+    height: 150px;
+    flex-shrink: 0;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-
-.prev {
-  left: 1rem;
-}
-
-.next {
-  right: 1rem;
-}
-
-.dots {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.6rem;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #eee;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.dot.active {
-  background: #69bebe;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
+.thumbnail .item.active {
     opacity: 1;
-    transform: translateY(0);
-  }
+    transform: scale(1.1);
+}
+.thumbnail .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.thumbnail .item .content {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    color: #fff;
+    text-shadow: 0 2px 5px black;
+    font-size: 0.8rem;
+}
+.thumbnail .item .content .title {
+    font-weight: bold;
+}
+
+.arrows {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transform: translateX(-50%);
+}
+.arrows button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #eee4;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: large;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+.arrows button:hover {
+    background-color: #eee;
+    color: #555;
+}
+
+.time {
+    width: 0%;
+    height: 5px;
+    background-color: transparent;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    transition: width 0.3s linear;
 }

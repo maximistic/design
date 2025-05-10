@@ -1,721 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fullpage Snap Scroll with Cut Transitions</title>
-  <style>
-    :root {
-      --font-display: 'Arial', sans-serif;
-      --text-color: #ffffff;
-      --space-xl: 3rem;
-      --space-lg: 2rem;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      cursor: none !important;
-      overflow: hidden;
-      background-color: #111;
-      color: #fff;
-      font-family: 'Arial', sans-serif;
-    }
-    
-    .custom-cursor {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: #00cc99;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      mix-blend-mode: difference;
-      transition: transform 0.1s ease;
-    }
-    
-    .section {
-      position: absolute;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-    }
-    
-    .section-content {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      padding: 2rem;
-    }
-    
-    /* Section Specific Styles */
-    .section.works {
-      background-color: #0a0a0a;
-    }
-    
-    .section.testimonials {
-      background-color: #0c0c0c;
-    }
-    
-    .section.team {
-      background-color: #111;
-    }
-    
-    .section-title {
-      text-align: center;
-      font-size: 3rem;
-      font-family: var(--font-display);
-      color: var(--text-color);
-      margin: var(--space-xl) 0 var(--space-lg);
-    }
-    
-    .slide-progress {
-      position: fixed;
-      right: 2rem;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    
-    .slide-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-    }
-    
-    .slide-dot.active {
-      background: #00cc99;
-      transform: scale(1.5);
-    }
-    
-    /* Clip Animation Containers */
-    .clip-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    }
-    
-    /* Gallery Styles */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      height: calc(100% - 120px);
-      margin: 2% 3%;
-      overflow: hidden;
-    }
-    
-    .poster-card {
-      width: 100%;
-      height: 300px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      perspective: 2500px;
-    }
-    
-    .wrapper {
-      transition: all 0.5s;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-    
-    .cover-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .poster-card:hover .wrapper {
-      transform: perspective(900px) translateY(-5%) rotateX(25deg);
-      box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-    }
-    
-    .wrapper::before,
-    .wrapper::after {
-      content: "";
-      opacity: 0;
-      width: 100%;
-      position: absolute;
-      left: 0;
-      transition: all 0.5s;
-    }
-    
-    .wrapper::before {
-      top: 0;
-      height: 100%;
-      background: linear-gradient(to top, transparent 46%, rgba(0, 0, 0, 0.5) 68%, rgba(0, 0, 0) 97%);
-    }
-    
-    .wrapper::after {
-      bottom: 0;
-      height: 80px;
-      background: linear-gradient(to bottom, transparent 46%, rgba(0, 0, 0, 0.5) 68%, rgba(0, 0, 0) 97%);
-    }
-    
-    .poster-card:hover .wrapper::before,
-    .poster-card:hover .wrapper::after {
-      opacity: 1;
-    }
-    
-    .poster-card:hover .wrapper::after {
-      height: 120px;
-    }
-    
-    .poster-character {
-      width: 100%;
-      opacity: 0;
-      transition: all 0.5s;
-      position: absolute;
-      z-index: 1;
-    }
-    
-    .poster-card:hover .poster-character {
-      opacity: 1;
-      transform: translate3d(0%, -30%, 100px);
-    }
-    
-    /* Testimonials Styles */
-    .slider {
-      position: relative;
-      width: 100%;
-      height: calc(100% - 120px);
-      overflow: hidden;
-    }
-    
-    .slides {
-      display: flex;
-      height: 100%;
-      width: 100%;
-      transition: transform 0.7s ease;
-    }
-    
-    .slide {
-      min-width: 100%;
-      height: 100%;
-      background: #222 no-repeat center center/cover;
-      position: relative;
-      color: #fff;
-    }
-    
-    .content {
-      position: absolute;
-      bottom: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 2rem 3rem;
-      border-radius: 10px;
-      max-width: 700px;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-    
-    blockquote p {
-      font-size: 1.5rem;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-    
-    footer {
-      font-style: italic;
-      font-size: 1rem;
-      opacity: 0.8;
-    }
-    
-    .nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.3);
-      border: none;
-      padding: 1rem;
-      cursor: pointer;
-      z-index: 10;
-      font-size: 2rem;
-      color: #fff;
-      transition: background 0.3s;
-    }
-    
-    .nav:hover {
-      background: rgba(255, 255, 255, 0.6);
-    }
-    
-    .prev {
-      left: 1rem;
-    }
-    
-    .next {
-      right: 1rem;
-    }
-    
-    .dots {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 0.6rem;
-    }
-    
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #eee;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    
-    .dot.active {
-      background: #00cc99;
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* Team Styles */
-    .team-container {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-      height: calc(100% - 120px);
-      padding: 2rem;
-    }
-    
-    .team-card {
-      background: #1e1e1e;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      width: 17%;
-      height: 350px;
-      flex-shrink: 0;
-      position: relative;
-    }
-    
-    .team-card:hover .info {
-      bottom: 0;
-    }
-    
-    .team-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    
-    .team-card .info {
-      width: 100%;
-      height: 30%;
-      position: absolute;
-      bottom: -100%;
-      right: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
-      padding: 1rem;
-      text-transform: uppercase;
-      display: flex;
-      flex-direction: column;
-      transition: bottom 0.3s ease;
-    }
-    
-    .team-card h3 {
-      margin: 0.5rem 0 0.2rem;
-      font-size: 1.1rem;
-      color: #fff;
-    }
-    
-    .team-card p {
-      font-size: 0.9rem;
-      color: #aaa;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smooth Image Carousel</title>
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .carousel {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel .list {
+            position: absolute;
+            inset: 0 0 0 0;
+        }
+        .carousel .list .item {
+            position: absolute;
+            inset: 0 0 0 0;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out, z-index 0s 0.6s;
+            z-index: 0;
+        }
+        .carousel .list .item.active {
+            opacity: 1;
+            z-index: 1;
+            transition: opacity 0.6s ease-in-out, z-index 0s 0s;
+        }
+        .carousel .list .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .carousel .content {
+          position: absolute;
+          top: 50px;
+          left: 50px;
+          max-width: 500px;
+          padding: 1rem;
+          background: rgba(0, 0, 0, 0.5);
+          border-radius: 10px;
+          color: #fff;
+          z-index: 2;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .carousel .item.active .content {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        blockquote {
+          border-left: 4px solid #f1683a;
+          padding-left: 20px;
+        }
+
+        blockquote p {
+          font-size: 1.5rem;
+          line-height: 1.6;
+          margin-bottom: 1rem;
+        }
+
+        blockquote footer {
+          font-style: italic;
+          font-size: 1.2rem;
+          opacity: 0.8;
+        }
+        .thumbnail {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            width: max-content;
+            z-index: 100;
+            display: flex;
+            gap: 20px;
+            transform: translateX(-50%);
+        }
+        .thumbnail .item {
+            width: 100px;
+            height: 150px;
+            flex-shrink: 0;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .thumbnail .item.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .thumbnail .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .thumbnail .item .content {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            color: #fff;
+            text-shadow: 0 2px 5px black;
+            font-size: 0.8rem;
+        }
+        .thumbnail .item .content .title {
+            font-weight: bold;
+        }
+
+        .arrows {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transform: translateX(-50%);
+        }
+        .arrows button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #eee4;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: large;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .arrows button:hover {
+            background-color: #eee;
+            color: #555;
+        }
+
+        .time {
+            width: 0%;
+            height: 5px;
+            background-color: transparent;
+            position: absolute;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            transition: width 0.3s linear;
+        }
+    </style>
 </head>
 <body>
-  <!-- Custom cursor -->
-  <div class="custom-cursor"></div>
-
-  <!--Navigation Dots-->
-  <div class="slide-progress">
-    <div class="slide-dot active" data-index="0"></div>
-    <div class="slide-dot" data-index="1"></div>
-    <div class="slide-dot" data-index="2"></div>
-  </div>
-
-  <!-- Section 1: Our Works -->
-  <section class="section works" id="works">
-    <div class="clip-container works-container">
-      <div class="section-content">
-        <h1 class="section-title">Our Works</h1>
-        <div class="gallery">
-          <div class="poster-card">
-            <div class="wrapper">
-              <img src="assets/vikram.jpeg" class="cover-image" />
+    <div class="carousel">
+        <div class="list">
+            <div class="item active">
+                <img src="assets/test5.jpg" alt="Test 5">
+                <div class="content">
+                    <blockquote>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, dignissimos?</p>
+                        <footer>— John Doe</footer>
+                    </blockquote>
+                </div>
             </div>
-            <img src="assets/vikrambg.png" class="poster-character" />
-          </div>
-
-          <div class="poster-card">
-            <div class="wrapper">
-              <img src="assets/beast.jpg" class="cover-image" />
+            <div class="item">
+                <img src="assets/test2.jpg" alt="Test 2">
+                <div class="content">
+                    <blockquote>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, dignissimos?</p>
+                        <footer>— John Doe</footer>
+                    </blockquote>
+                </div>
             </div>
-            <img src="assets/beastbg.jpg" class="poster-character" />
-          </div>
-
-          <div class="poster-card">
-            <div class="wrapper">
-              <img src="assets/varisu.jpg" class="cover-image" />
+            <div class="item">
+                <img src="assets/test3.jpg" alt="Test 3">
+                <div class="content">
+                    <blockquote>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, dignissimos?</p>
+                        <footer>— John Doe</footer>
+                    </blockquote>
+                </div>
             </div>
-            <img src="assets/varisubg.jpg" class="poster-character" />
-          </div>
-
-          <div class="poster-card">
-            <div class="wrapper">
-              <img src="assets/thunivu.jpg" class="cover-image" />
+            <div class="item">
+                <img src="assets/test4.jpg" alt="Test 4">
+                <div class="content">
+                    <blockquote>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, dignissimos?</p>
+                        <footer>— John Doe</footer>
+                    </blockquote>
+                </div>
             </div>
-            <img src="assets/thunivubg.jpg" class="poster-character" />
-          </div>
-
-          <div class="poster-card">
-            <div class="wrapper">
-              <img src="assets/96.jpg" class="cover-image" />
+            <div class="item">
+                <img src="assets/test1.jpg" alt="Test 1">
+                <div class="content">
+                    <blockquote>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, dignissimos?</p>
+                        <footer>— John Doe</footer>
+                    </blockquote>
+                </div>
             </div>
-            <img src="assets/96bg.png" class="poster-character" />
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Section 2: Testimonials -->
-  <section class="section testimonials" id="testimonials">
-    <div class="clip-container testimonials-container">
-      <div class="section-content">
-        <h2 class="section-title">Testimonials</h2>
-        <div class="slider">
-          <div class="slides">
-            <div class="slide" style="background-image: url('assets/test4.jpg')">
-              <div class="content">
-                <blockquote>
-                  <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris."</p>
-                  <footer>— Nirav Shah</footer>
-                </blockquote>
-              </div>
+        <div class="thumbnail">
+            <div class="item active">
+                <img src="assets/test5.jpg" alt="Thumbnail 5">
             </div>
-            <div class="slide" style="background-image: url('assets/test5.jpg')">
-              <div class="content">
-                <blockquote>
-                  <p>"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip."</p>
-                  <footer>— Jane Doe</footer>
-                </blockquote>
-              </div>
+            <div class="item">
+                <img src="assets/test2.jpg" alt="Thumbnail 2">
             </div>
-            <div class="slide" style="background-image: url('assets/test2.jpg')">
-              <div class="content">
-                <blockquote>
-                  <p>"Great service and amazing support. Highly recommend to anyone!"</p>
-                  <footer>— John Smith</footer>
-                </blockquote>
-              </div>
+            <div class="item">
+                <img src="assets/test3.jpg" alt="Thumbnail 3">
             </div>
-            <div class="slide" style="background-image: url('assets/test3.jpg')">
-              <div class="content">
-                <blockquote>
-                  <p>"Clean, modern, and super easy to use. Exactly what we needed!"</p>
-                  <footer>— Emma Brown</footer>
-                </blockquote>
-              </div>
+            <div class="item">
+                <img src="assets/test4.jpg" alt="Thumbnail 4">
             </div>
-            <div class="slide" style="background-image: url('assets/test1.jpg')">
-              <div class="content">
-                <blockquote>
-                  <p>"A seamless experience from start to finish. Truly impressed."</p>
-                  <footer>— Liam Green</footer>
-                </blockquote>
-              </div>
+            <div class="item">
+                <img src="assets/test1.jpg" alt="Thumbnail 1">
             </div>
-          </div>
-
-          <button class="nav prev">&#10094;</button>
-          <button class="nav next">&#10095;</button>
-
-          <div class="dots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-            <span class="dot" data-index="3"></span>
-            <span class="dot" data-index="4"></span>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="section team" id="team">
-    <div class="clip-container team-container">
-      <div class="section-content">
-        <h2 class="section-title">Our Team</h2>
-        <div class="team-container">
-          <div class="team-card">
-            <img src="assets/test4.jpg" alt="Alice Kim">
-            <div class="info">
-              <h3>Alice Kim</h3>
-              <p>Product Manager</p>
-            </div>
-          </div>
-          <div class="team-card">
-            <img src="assets/test3.jpg" alt="Daniel Ross">
-            <div class="info">
-              <h3>Daniel Ross</h3>
-              <p>Lead Developer</p>
-            </div>
-          </div>
-          <div class="team-card">
-            <img src="assets/test2.jpg" alt="Sophia Lin">
-            <div class="info">
-              <h3>Sophia Lin</h3>
-              <p>UX Designer</p>
-            </div>
-          </div>
-          <div class="team-card">
-            <img src="assets/test1.jpg" alt="Mark Patel">
-            <div class="info">
-              <h3>Mark Patel</h3>
-              <p>Marketing Head</p>
-            </div>
-          </div>
-          <div class="team-card">
-            <img src="assets/test5.jpg" alt="Luna Rivera">
-            <div class="info">
-              <h3>Luna Rivera</h3>
-              <p>Customer Success</p>
-            </div>
-          </div>
+        <div class="arrows">
+            <button id="prev"> &#10094;</button>
+            <button id="next"> &#10095;</button>
         </div>
-      </div>
+        <div class="time"></div>
     </div>
-  </section>
 
-  <!-- Load GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
-  <script>
-    // Custom cursor
-    const cursor = document.querySelector('.custom-cursor');
-    
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
-    });
-    
-    // Initialize GSAP
-    document.addEventListener('DOMContentLoaded', () => {
-      // Register ScrollTrigger
-      gsap.registerPlugin(ScrollTrigger);
-      
-      // Variables
-      const sections = document.querySelectorAll('.section');
-      const dots = document.querySelectorAll('.slide-dot');
-      let currentSection = 0;
-      let isAnimating = false;
-      
-      // Initialize sections
-      gsap.set(sections[0], { zIndex: 3 });
-      gsap.set(sections[1], { zIndex: 2, y: '100%' });
-      gsap.set(sections[2], { zIndex: 1, y: '100%' });
-      
-      // Function to go to specific section
-      function goToSection(index) {
-        if (isAnimating || currentSection === index) return;
-        
-        isAnimating = true;
-        const fromSection = sections[currentSection];
-        const toSection = sections[index];
-        
-        // Update active dot
-        dots.forEach((dot, i) => {
-          dot.classList.toggle('active', i === index);
-        });
-        
-        // Determine direction
-        const direction = index > currentSection ? 1 : -1;
-        
-        // Animation for moving out current section
-        if (direction === 1) {
-          // Going down
-          gsap.to(fromSection.querySelector('.clip-container'), {
-            clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
-            duration: 1,
-            ease: 'power2.inOut'
-          });
-          
-          // Set up and animate in next section
-          gsap.set(toSection, { y: '0%', zIndex: 3 });
-          gsap.set(toSection.querySelector('.clip-container'), { 
-            clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
-          });
-          
-          gsap.to(toSection.querySelector('.clip-container'), {
-            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            duration: 1,
-            delay: 0.3,
-            ease: 'power2.inOut',
-            onComplete: () => {
-              // Reset old section
-              gsap.set(fromSection, { zIndex: 1, y: '100%' });
-              gsap.set(fromSection.querySelector('.clip-container'), {
-                clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
-              });
-              
-              isAnimating = false;
-              currentSection = index;
+    <script>
+        let nextDom = document.getElementById("next");
+        let prevDom = document.getElementById("prev");
+        let carouselDom = document.querySelector(".carousel");
+        let listItemDom = document.querySelectorAll(".carousel .list .item");
+        let thumbnailDom = document.querySelectorAll(".carousel .thumbnail .item");
+        let timeDom = document.querySelector(".time");
+
+        let currentIndex = 0;
+        let timeRunning = 5000;
+        let timeAutoNext = 5000; 
+        let runTimeOut;
+        let runAutoRun;
+
+        function showSlider(index) {
+            document.querySelector(".carousel .list .item.active").classList.remove("active");
+            document.querySelector(".carousel .thumbnail .item.active").classList.remove("active");
+
+            listItemDom[index].classList.add("active");
+            thumbnailDom[index].classList.add("active");
+
+            timeDom.style.width = "0%";
+            setTimeout(() => {
+                timeDom.style.transition = `width ${timeRunning / 1000}s linear`;
+                timeDom.style.width = "100%";
+            }, 10); 
+            clearTimeout(runAutoRun);
+            runAutoRun = setTimeout(() => {
+                nextSlide();
+            }, timeAutoNext);
+        }
+
+        function nextSlide() {
+            currentIndex++;
+            if (currentIndex >= listItemDom.length) {
+                currentIndex = 0;
             }
-          });
-        } else {
-          // Going up
-          gsap.to(fromSection.querySelector('.clip-container'), {
-            clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)',
-            duration: 1,
-            ease: 'power2.inOut'
-          });
-          
-          // Set up and animate in previous section
-          gsap.set(toSection, { y: '0%', zIndex: 3 });
-          gsap.set(toSection.querySelector('.clip-container'), {
-            clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)'
-          });
-          
-          gsap.to(toSection.querySelector('.clip-container'), {
-            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            duration: 1,
-            delay: 0.3,
-            ease: 'power2.inOut',
-            onComplete: () => {
-              // Reset old section
-              gsap.set(fromSection, { zIndex: 1, y: '100%' });
-              gsap.set(fromSection.querySelector('.clip-container'), {
-                clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
-              });
-              
-              isAnimating = false;
-              currentSection = index;
+            showSlider(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex--;
+            if (currentIndex < 0) {
+                currentIndex = listItemDom.length - 1;
             }
-          });
+            showSlider(currentIndex);
         }
-      }
-      
-      // Set up wheel event for smooth scrolling
-      let wheelTimer;
-      window.addEventListener('wheel', (e) => {
-        clearTimeout(wheelTimer);
-        
-        wheelTimer = setTimeout(() => {
-          if (isAnimating) return;
-          
-          if (e.deltaY > 0 && currentSection < sections.length - 1) {
-            // Scroll down
-            goToSection(currentSection + 1);
-          } else if (e.deltaY < 0 && currentSection > 0) {
-            // Scroll up
-            goToSection(currentSection - 1);
-          }
-        }, 50);
-      });
-      
-      // Set up click events for navigation dots
-      dots.forEach((dot) => {
-        dot.addEventListener('click', () => {
-          const index = parseInt(dot.getAttribute('data-index'));
-          goToSection(index);
+
+        nextDom.addEventListener("click", () => {
+            nextSlide();
+            clearTimeout(runAutoRun); 
+            runAutoRun = setTimeout(() => {
+                nextSlide();
+            }, timeAutoNext);
         });
-      });
-      
-      // Handle keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (isAnimating) return;
-        
-        if (e.key === 'ArrowDown' && currentSection < sections.length - 1) {
-          goToSection(currentSection + 1);
-        } else if (e.key === 'ArrowUp' && currentSection > 0) {
-          goToSection(currentSection - 1);
-        }
-      });
-      
-      // Testimonial slider functionality
-      const slides = document.querySelector('.slides');
-      const slideItems = document.querySelectorAll('.slide');
-      const prevBtn = document.querySelector('.prev');
-      const nextBtn = document.querySelector('.next');
-      const testimonialDots = document.querySelectorAll('.dots .dot');
-      let testimonialIndex = 0;
-      const slideWidth = 100; // 100%
-      
-      // Initialize testimonial slider
-      function showSlide(index) {
-        slides.style.transform = `translateX(-${index * slideWidth}%)`;
-        
-        // Update active dot
-        testimonialDots.forEach((dot, i) => {
-          dot.classList.toggle('active', i === index);
+
+        prevDom.addEventListener("click", () => {
+            prevSlide();
+            clearTimeout(runAutoRun); 
+            runAutoRun = setTimeout(() => {
+                nextSlide();
+            }, timeAutoNext);
         });
-        
-        testimonialIndex = index;
-      }
-      
-      // Add event listeners
-      nextBtn.addEventListener('click', () => {
-        testimonialIndex = (testimonialIndex + 1) % slideItems.length;
-        showSlide(testimonialIndex);
-      });
-      
-      prevBtn.addEventListener('click', () => {
-        testimonialIndex = (testimonialIndex - 1 + slideItems.length) % slideItems.length;
-        showSlide(testimonialIndex);
-      });
-      
-      testimonialDots.forEach((dot) => {
-        dot.addEventListener('click', () => {
-          const index = parseInt(dot.getAttribute('data-index'));
-          showSlide(index);
+
+        thumbnailDom.forEach((thumbnail, index) => {
+            thumbnail.addEventListener("click", () => {
+                currentIndex = index;
+                showSlider(currentIndex);
+                clearTimeout(runAutoRun);
+                runAutoRun = setTimeout(() => {
+                    nextSlide();
+                }, timeAutoNext);
+            });
         });
-      });
-      
-      // Auto slide
-      setInterval(() => {
-        if (document.hasFocus() && currentSection === 1) {
-          testimonialIndex = (testimonialIndex + 1) % slideItems.length;
-          showSlide(testimonialIndex);
-        }
-      }, 5000);
-    });
-  </script>
+        showSlider(currentIndex);
+    </script>
+
 </body>
 </html>
