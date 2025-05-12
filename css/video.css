@@ -1,3 +1,5 @@
+/* ========== Base Styles ========== */
+
 .outro {
   height: 100vh;
   display: flex;
@@ -30,12 +32,37 @@
   object-fit: cover;
 }
 
-.loading {
-  position: fixed;
+.video-overlay {
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ========== Designer Label ========== */
+
+.designer-label {
+  position: absolute;
+  top: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 6rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 500;
+  z-index: 11;
+  transition: opacity 0.5s ease;
+}
+
+/* ========== Loading Overlay ========== */
+
+.loading {
+  position: fixed;
+  inset: 0;
   background: #000;
   display: flex;
   flex-direction: column;
@@ -55,37 +82,35 @@
   margin-bottom: 20px;
 }
 
-.scroll-ui {
+/* ========== Scroll UI and Progress ========== */
+
+.scroll-ui,
+.progress {
   position: fixed;
-  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 20;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.scroll-ui {
+  bottom: 30px;
   color: #fff;
-  font-size: 14px;
+  font-size: 1.2rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  opacity: 0.8;
   animation: pulse 2s infinite;
-  z-index: 20;
 }
 
 .progress {
-  position: fixed;
   bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
   width: 100px;
   height: 2px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 1px;
   overflow: hidden;
-  z-index: 20;
-}
-  
-.progress, .scroll-ui {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .progress-bar {
@@ -94,6 +119,8 @@
   background: linear-gradient(90deg, #ff4d4d, #f9cb28);
   transition: width 0.1s linear;
 }
+
+/* ========== Animations ========== */
 
 @keyframes spin {
   to {
@@ -110,26 +137,44 @@
   }
 }
 
-.video-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  pointer-events: none;
+/* ========== Responsive Styles ========== */
+
+@media (max-width: 768px) {
+  .scroll-ui {
+    font-size: 1.1rem;
+    bottom: 40px;
+    letter-spacing: 1px;
+  }
+
+  .progress {
+    width: 150px;
+    height: 4px;
+    bottom: 30px;
+  }
+
+  .designer-label {
+    font-size: 3rem;
+    top: 4rem;
+    letter-spacing: 3px;
+  }
 }
 
-.designer-label {
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 2rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  font-weight: 500;
-  z-index: 11;
-  transition: opacity 0.5s ease;
+@media (max-width: 480px) {
+  .scroll-ui {
+    font-size: 1.4rem;
+    bottom: 50px;
+    letter-spacing: 0.5px;
+  }
+
+  .progress {
+    width: 180px;
+    height: 5px;
+    bottom: 40px;
+  }
+
+  .designer-label {
+    font-size: 3.5rem;
+    top: 5rem;
+    letter-spacing: 2px;
+  }
 }
