@@ -49,11 +49,12 @@ body {
   min-height: 300vh;
 }
 
-h1, h2, h3, h4, .title, .footer-title, .nav-heading {
+h1, h2, h3, h4, .title, .nav-heading {
   font-family: var(--font-display);
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.1;
+  text-align: center;
 }
 
 .page {
