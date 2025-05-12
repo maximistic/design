@@ -9,6 +9,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    cursor: none;
 }
 body {
     background: #000;
@@ -32,6 +33,7 @@ nav {
     padding: 1.5em 2em;
     align-items: center;
     display: flex;
+    z-index: 10000;
 }
 nav > div {
     flex: 1;
@@ -67,6 +69,7 @@ nav > div {
     background: #000;
     opacity: 0.35;
     z-index: -1;
+    pointer-events: none;
 }
 .active-slide img {
     position: absolute;
