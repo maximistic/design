@@ -2,9 +2,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 30px;
-  height: calc(100% - 120px);
+  height: 100vh;
   margin: 2% 3%;
-  overflow:visible;
+  overflow: visible;
   margin-top: 10%;
 }
 
@@ -76,8 +76,35 @@
   position: absolute;
   z-index: 1;
 }
-
 .poster-card:hover .poster-character {
   opacity: 1;
   transform: translate3d(0%, -30%, 100px);
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .poster-card:nth-child(n+4) {
+    display: none;
+  }
+  .poster-card {
+    height: 300px;
+  }
+}
+
+@media (max-width: 767px) {
+  .poster-card:nth-child(n+3) {
+    display: none;
+  }
+  .poster-card {
+    height: 300px;
+  }
+}
+
+@media (max-width: 525px) {
+  .poster-card:nth-child(n+2) {
+    display: none;
+  }
+  .poster-card {
+    height: 80%;
+  }
+
 }
