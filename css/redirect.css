@@ -31,8 +31,8 @@ padding: 2rem;
   position: absolute;
   top: 50%;
   left: 50%;
-  min-width: 100%;
-  min-height: 100%;
+  width: 100vw;
+  height: 100%;
   transform: translate(-50%, -50%);
   object-fit: cover;
   z-index: 0;
@@ -85,4 +85,24 @@ padding: 2rem;
   line-height: 1.4;
   opacity: 0.9;
   text-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 1024px) {
+  .designer-label {
+    font-size: 4rem;
+  }
+
+  .bottom-left-tagline {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .designer-label {
+    font-size: 4rem;
+  }
+
+  .bottom-left-tagline {
+    display: none;
+  }
 }
