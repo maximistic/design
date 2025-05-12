@@ -112,7 +112,11 @@
   .designer-label {
     font-size: clamp(2rem, 6vw, 4rem);
   }
-
+  .section {
+    height: auto;
+    min-height: 80vh;
+    padding-block: 4rem;
+  }
   .bottom-left-tagline {
     display: none;
   }
@@ -123,7 +127,11 @@
     top: 8%;
     padding: 0 4vw;
   }
-
+  .section {
+    height: auto;
+    min-height: 70vh;
+    padding-block: 3rem;
+  }
   .scroll-ui {
     font-size: 1rem;
   }
@@ -134,7 +142,11 @@
     font-size: clamp(1.5rem, 10vw, 3rem);
     letter-spacing: 1px;
   }
-
+  .section {
+    height: auto;
+    min-height: auto;
+    padding-block: 2rem;
+  }
   .scroll-ui {
     font-size: 0.9rem;
   }
